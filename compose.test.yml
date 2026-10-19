@@ -1,0 +1,44 @@
+
+services:
+  postgres-test:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: orchiva_test
+      POSTGRES_USER: orchiva_test
+      POSTGRES_PASSWORD: local_test_only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orchiva_test -d orchiva_test"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - postgres-test-data:/var/lib/postgresql/data
+
+  test:
+    image: eclipse-temurin:21-jdk
+    working_dir: /workspace
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: test
+      DB_URL: jdbc:postgresql://postgres-test:5432/orchiva_test
+      DB_USERNAME: orchiva_test
+      DB_PASSWORD: local_test_only
+      GRADLE_USER_HOME: /gradle-cache
+    volumes:
+      - ./gradlew:/workspace/gradlew:ro
+      - ./gradle:/workspace/gradle:ro
+      - ./settings.gradle:/workspace/settings.gradle:ro
+      - ./build.gradle:/workspace/build.gradle:ro
+      - ./src:/workspace/src:ro
+      - gradle-cache:/gradle-cache
+      - gradle-project-cache:/workspace/.gradle
+      - gradle-build:/workspace/build
+    command: ["sh", "./gradlew", "--no-daemon", "clean", "build"]
+
+volumes:
+  postgres-test-data:
+  gradle-cache:
+  gradle-project-cache:
+  gradle-build:
