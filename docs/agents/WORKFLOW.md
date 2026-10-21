@@ -36,10 +36,11 @@ Avoid unrelated refactoring, speculative features, and unnecessary abstractions.
 
 Before implementation, modification, refactoring, or debugging:
 
-1. Read `../plans/PLANS.md` when available.
-2. Create or update a plan according to its rules.
-3. Keep new plans in `Planned` status until execution is authorized.
-4. Change the plan to `Active` only after authorization.
+1. Read `../plans/AGENTS.md`.
+2. Review `../plans/README.md`.
+3. Create or update a plan according to the planning rules.
+4. Keep new plans in `Planned` status until execution is authorized.
+5. Change the plan to `Active` only after authorization.
 
 Read-only analysis, documentation, and verification tasks do not require a new plan unless the planning rules specify otherwise.
 
@@ -63,7 +64,8 @@ When applicable:
 - Security changes → verify authentication and authorization behavior.
 - Domain naming changes → follow `TERMINOLOGY.md`.
 
-For architectural changes, review `../decisions/DECISIONS.md` when available and create a decision record when required.
+For architectural changes, follow `../decisions/AGENTS.md`,
+review `../decisions/README.md`, and record significant decisions.
 
 Do not modify unrelated files or introduce unrequested features.
 
